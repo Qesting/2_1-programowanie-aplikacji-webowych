@@ -16,6 +16,8 @@
 
   cw1.addEventListener("click", async function () {
     //DONE
+    answer.innerHTML = ''
+    answer.textContent = 'Loading...'
     const response = await fetch('https://jsonplaceholder.typicode.com/posts')
     const jsonArray = await response.json()
     const list = document.createElement('ul')
@@ -24,6 +26,7 @@
       element.textContent = JSON.stringify(jsonArray[index])
       list.appendChild(element)
     }
+    answer.innerHTML = ""
     answer.appendChild(list)
   })
 
