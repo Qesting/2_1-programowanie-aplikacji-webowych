@@ -5,6 +5,9 @@
   const cw3 = document.getElementById('cw3')
   const answer = document.getElementById('answer')
 
+  const cw1_3 = document.getElementById('cw1.3')
+  const postIdField = document.getElementById('post-id')
+
   example.addEventListener("click", function () {
     fetch('https://jsonplaceholder.typicode.com/posts')
       .then(response => response.json())
@@ -26,8 +29,17 @@
       element.textContent = JSON.stringify(jsonArray[index])
       list.appendChild(element)
     }
-    answer.innerHTML = ""
+    answer.innerHTML = ''
     answer.appendChild(list)
+  })
+
+  cw1_3.addEventListener('click', async () => {
+    const postId = postIdField.value
+    answer.innerHTML = ''
+    answer.textContent = 'Loading...'
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts/' + postId)
+    const json = await response.json()
+    answer.textContent = JSON.stringify(json)
   })
 
   cw2.addEventListener("click", function () {
