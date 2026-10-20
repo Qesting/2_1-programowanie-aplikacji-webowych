@@ -8,6 +8,8 @@
   const cw1_3 = document.getElementById('cw1.3')
   const postIdField = document.getElementById('post-id')
 
+  const postForm = document.getElementById('post-form')
+
   example.addEventListener("click", function () {
     fetch('https://jsonplaceholder.typicode.com/posts')
       .then(response => response.json())
@@ -40,6 +42,30 @@
     const response = await fetch('https://jsonplaceholder.typicode.com/posts/' + postId)
     const json = await response.json()
     answer.textContent = JSON.stringify(json)
+  })
+
+  postForm.addEventListener('submit', async (event) => {
+    event.preventDefault()
+    const data = new FormData(postForm)
+    answer.innerHTML = ''
+    answer.textContent = 'Processing...'
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({
+        userId: 1,
+        title: data.get('title'),
+        body: data.get('body')
+      })
+    })
+    if (response.status === 500) {
+      answer.textContent = 'Error when posting: ' + response.status
+      return
+    }
+    const json = await response.json()
+    answer.textContent = 'Dodano nowy post o ID ' + json['id']
   })
 
   cw2.addEventListener("click", function () {
